@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -13,17 +15,71 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: Container(), //TODO: Set to new dog page
+      home: const DogPage(),
     );
   }
 }
 
-//TODO: Make Stateful Dog Page
+class DogPage extends StatefulWidget {
+  const DogPage({super.key});
+
+  @override
+  State<DogPage> createState() => _DogPageState();
+}
+
+class _DogPageState extends State<DogPage> {
+  int _imageIndex = 0;
+  late Random _random;
+
+  @override
+  void initState() {
+    _random = Random();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Random Dog Images'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _getCurrentImage(),
+          CustomMaterialButton(onPressed: _onButtonPressed),
+        ],
+      ),
+    );
+  }
+
+  void _onButtonPressed() {
+    setState(() {
+      _imageIndex = _random.nextInt(6) + 1;
+    });
+  }
+
+  Widget _getCurrentImage() {
+    if (_imageIndex == 0) {
+      return const Padding(
+        padding: EdgeInsets.only(bottom: 10.0),
+        child: Text('Tap Button To See A Dog'),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8),
+        child: CustomDogImage(imagePath: 'images/image$_imageIndex.jpg'),
+      );
+    }
+  }
+}
 
 class CustomMaterialButton extends StatelessWidget {
   final Function() onPressed;
+
   const CustomMaterialButton({required this.onPressed, super.key});
 
   @override

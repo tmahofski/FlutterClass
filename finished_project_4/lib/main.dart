@@ -1,0 +1,60 @@
+import 'package:finished_project_4/home_page.dart';
+import 'package:finished_project_4/views/login_page.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+void main() {
+  runApp(const App());
+}
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headlineLarge: GoogleFonts.encodeSans(
+            fontSize: 36,
+            color: Colors.grey.shade800,
+            fontWeight: FontWeight.bold,
+          ),
+          headlineMedium: GoogleFonts.encodeSans(
+            fontSize: 25,
+            color: Colors.grey.shade800,
+          ),
+          headlineSmall: GoogleFonts.encodeSans(
+            fontSize: 12,
+            color: Colors.grey.shade800,
+          ),
+          bodySmall: GoogleFonts.encodeSans(
+            fontSize: 12,
+            color: Colors.grey.shade700,
+          ),
+          labelSmall: GoogleFonts.encodeSans(
+            fontSize: 12,
+            color: Colors.red,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              minimumSize: const Size(0, 50),
+              shape: const StadiumBorder(),
+              textStyle: GoogleFonts.encodeSans(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
+              )),
+        ),
+      ),
+      // themeMode: ThemeMode.dark,
+      initialRoute: LoginPage.route,
+      routes: {
+        LoginPage.route: (context) => const LoginPage(),
+        HomePage.route: (context) => const HomePage(),
+      },
+    );
+  }
+}
