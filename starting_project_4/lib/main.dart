@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginPage.route,
       routes: {
         //Todo: Add different routes
+        LoginPage.route: (context) => const LoginPage(),
       },
     );
   }
