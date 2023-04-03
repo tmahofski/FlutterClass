@@ -1,14 +1,23 @@
+import 'dart:math';
+
 import 'package:finished_project_5/home_page.dart';
+import 'package:finished_project_5/services/exercise_service.dart';
+import 'package:finished_project_5/views/exercise_page.dart';
 import 'package:finished_project_5/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(const App());
+  ExerciseService exerciseService = ExerciseService();
+  runApp(App(
+    exerciseService: exerciseService,
+  ));
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({super.key, required ExerciseService exerciseService}) : _exerciseService = exerciseService;
+
+  final ExerciseService _exerciseService;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +62,12 @@ class App extends StatelessWidget {
       initialRoute: LoginPage.route,
       routes: {
         LoginPage.route: (context) => const LoginPage(),
-        HomePage.route: (context) => const HomePage(),
+        HomePage.route: (context) => HomePage(
+              exerciseService: _exerciseService,
+            ),
+        ExercisePage.route: (context) => ExercisePage(
+              exerciseService: _exerciseService,
+            ),
       },
     );
   }

@@ -1,18 +1,21 @@
 import 'package:finished_project_5/models/exercise.dart';
 import 'package:finished_project_5/models/user.dart';
+import 'package:finished_project_5/services/exercise_service.dart';
+import 'package:finished_project_5/views/exercise_page.dart';
 import 'package:finished_project_5/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomePage extends StatelessWidget {
   static const String route = '/home';
-  const HomePage({super.key});
+  const HomePage({super.key, required ExerciseService exerciseService}) : _exerciseService = exerciseService;
+
+  final ExerciseService _exerciseService;
 
   @override
   Widget build(BuildContext context) {
     final User user = ModalRoute.of(context)!.settings.arguments as User;
     String username = user.username;
-    List<Exercise> usersExercises = user.exercises;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,14 +33,14 @@ class HomePage extends StatelessWidget {
           )
         ],
         title: Text(
-          'Exercise List',
+          'Home',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
       body: Stack(
         children: [
           _getBackground(context),
-          _getScreen(context, username, usersExercises),
+          _getScreen(context, username, user),
         ],
       ),
     );
@@ -60,7 +63,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _getScreen(BuildContext context, String username, List<Exercise> exercises) {
+  Widget _getScreen(BuildContext context, String username, User user) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -73,9 +76,12 @@ class HomePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            _getExercises(exercises),
+            _getExercises(user.exercises),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                // await _exerciseService.getListOfBodyParts();
+                Navigator.of(context).popAndPushNamed(ExercisePage.route, arguments: user);
+              },
               child: const Text('Add New Exercise'),
             )
           ],
